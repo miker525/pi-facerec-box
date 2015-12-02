@@ -7,7 +7,7 @@ import cv2
 import config
 import face
 import hardware
-
+import mailer
 
 if __name__ == '__main__':
 	# Load training data into model
@@ -23,6 +23,8 @@ if __name__ == '__main__':
 	print 'Running box...'
 	print 'Press button to lock (if unlocked), or unlock if the correct face is detected.'
 	print 'Press Ctrl-C to quit.'
+	# Set the variable for whether any intruder has been caught to false.
+	emailSent = False
 	while True:
 		# Check if capture should be made.
 		# TODO: Check if button is pressed.
@@ -56,3 +58,12 @@ if __name__ == '__main__':
 					box.unlock()
 				else:
 					print 'Did not recognize face!'
+					# Someone other than the box owner is trying to get in. Save a picture of their face...
+					if (not emailSent):
+						# Only send an email if the user has email information stored
+						if (not config.SENDER_EMAIL == ''):
+							filename = os.path.join('./culprits/', str(now.year) + str(now.month) + str(now.day) +'_face.png')
+							cv2.imwrite(filename, crop)
+							# Then email it to the box owner
+							mailer.email(filename)
+							emailSent = True

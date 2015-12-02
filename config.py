@@ -58,6 +58,15 @@ HAAR_MIN_SIZE      = (30, 30)
 # Filename to use when saving the most recently captured image for debugging.
 DEBUG_IMAGE = 'capture.pgm'
 
+# Email settings for capturing intruders
+# Server to send from. Gmails is left as an example
+SMTP_SERVER = '' #'smtp.gmail.com:587'
+# Sender = email address to send alert from
+SENDER_EMAIL = ''
+SENDER_PASSWORD = ''
+# Recipient = email address to receive alerts. If left blank will get sent to sender
+RECIPIENT_EMAIL = ''
+
 def get_camera():	
 	# Camera to use for capturing images.
 	# Use this code for capturing from the Pi camera:
